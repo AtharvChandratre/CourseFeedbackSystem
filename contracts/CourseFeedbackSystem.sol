@@ -35,8 +35,6 @@ contract CourseFeedback{
   //Mappings
   // mapping of all the students :studentsList
   mapping (address=>Student) studentsList;
-  // mapping of hashes of pk/password with public key :passDB
-  //mapping ( => ) passDB;
   //voted
   mapping (address=>bool) public voted;
   //mapping to store feedback
@@ -48,8 +46,6 @@ contract CourseFeedback{
     //initialise admin credentials
     admin=msg.sender;
     setNumberOfStudents(0);
-    addStudent(1,"Shubham",web3.eth.account[1]);
-    addStudent(2,"Atharv",web3.eth.account[2]);
   }
 
 
@@ -63,9 +59,6 @@ contract CourseFeedback{
   function addStudent (uint _studentid,string memory _studentname, address pk) onlyAdmin public {
     //making a new student struct
     studentsList[pk]=Student(_studentid,_studentname,true);
-    //add to studentsList
-
-    //update passDB
     //increase numberOfVotedStudents
     studentsCount++;
   }
@@ -75,16 +68,14 @@ contract CourseFeedback{
   //give feedback
   function giveFeedback (uint a, uint b) public returns(uint) {
       // requires that they are in studentsList
-      require(studentsList[msg.sender].validStud=true);
-      // requires they have pk/password
+      require(studentsList[msg.sender].validStud==true);
       // requires that they haven't given feedback before
       require(voted[msg.sender]==false);
-
       //add to feedbackRecord
       feedbackRecord[msg.sender] = Feedback(a,b);
       // update voted
       voted[msg.sender]=true;
-      return block.number;
+      return uint(keccak256(abi.encode(msg.sender)));
   }
 
 
@@ -97,12 +88,12 @@ contract CourseFeedback{
 
   }
 
-  function getNoOfStudVoted() public returns (uint)
+  function getNoOfStudVoted() public view returns (uint)
   {
     return numberOfVotedStudents;
   }
 
-  function getTotalStud() public returns (uint)
+  function getTotalStud() public view returns (uint)
   {
     return studentsCount;
   }
