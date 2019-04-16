@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="interface">
+        <div id="header">
+            <h1 data-next="1">Decentralized Feedback</h1>
+            <p id="wallet-address"></p>
+        </div>
+        
+        <div id="screen1" class="screen active">
+            <h1>Are you a student or admin?</h1>
+            <div class="options">
+                <button class="btn option" type="button" data-next="2">Student</button>
+                <button class="btn option" type="button" data-next="8">Admin</button>
+            </div>
+        </div>
+
+        <div id="screen2" class="screen">
+            <div class="options">
+                <button class="btn option" type="button" data-next="4">Give Feedback</button>
+                <button class="btn option" type="button" data-cbnext="3" data-intent="check-student-feedback">Check Feedback</button>
+            </div>
+        </div>
+
+        <div id="screen3" class="screen">
+            <h1>Your feedback was:</h1>
+            <div class="questions">
+                <div class="question">
+                    <h2>Q1. What is ABC</h2>
+                    <input type="number" disabled value="5" id="answer1" />
+                </div>
+                <div class="question">
+                    <h2>Q2. What is DEFGHI</h2>
+                    <input type="number" disabled value="1" id="answer2" />
+                </div>
+            </div>
+        </div>
+
+        <div id="screen4" class="screen">
+            <h1>Enter feedback:</h1>
+            <div class="questions">
+                <div class="question">
+                    <h2>Q1. What is ABC</h2>
+                    <select id="question1">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="question">
+                    <h2>Q2. What is DEF</h2>
+                    <select id="question2">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" data-cbnext="5" data-intent="feedback-submit">Submit</button>
+        </div>
+
+        <div id="screen5" class="screen">
+            <h1>Your feedback is accepted</h1>
+            <h2>Your feedback ID is</h2>
+            <p id="feedback-id">0xABCDEFGHIJKL</p>
+        </div>
+
+        <div id="screen6" class="screen">
+            <h1>You have not voted yet</h1>
+        </div>
+
+        <div id="screen7" class="screen">
+            <h1>You are not an admin</h1>
+        </div>
+
+        <div id="screen8" class="screen">
+            <div class="options">
+                <button class="btn option" type="button" data-next="10">Add Student</button>
+                <button class="btn option" type="button" data-cbnext="9" data-intent="check-admin-feedback">Check Feedback</button>
+            </div>
+        </div>
+        
+        <div id="screen9" class="screen">
+            <div class="feedback-row" id="admin-feedback">
+                
+            </div>
+        </div>
+
+        <div id="screen10" class="screen">
+            <div class="add-row">
+                <div class="row">
+                    <h2>Enter student ID</h2>
+                    <input type="number" value="0" id="student-id" />
+                </div>
+                <div class="row">
+                    <h2>Enter student name</h2>
+                    <input type="text" value="-" id="student-name" />
+                </div>
+                <div class="row">
+                    <h2>Enter student address</h2>
+                    <input type="text" value="-" id="student-address" />
+                </div>
+            </div>
+            <button type="button" class="btn" data-cbnext="11" data-intent="add-student">Add</button>
+        </div>
+
+        <div id="screen11" class="screen">
+            <h1>Student has been added</h1>
+        </div>
+
+        <div id="screen12" class="screen">
+            <h1>You are not a student</h1>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

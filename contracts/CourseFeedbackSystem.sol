@@ -3,13 +3,17 @@ pragma solidity >=0.4.21 <0.6.0;
 // This contract will be the backend smart contract for the course-feedback system, to interact with our blockchain
 contract CourseFeedback{
 
-
+    uint private ctr=0;
   // Store students Count
-  uint public studentsCount;
+  uint private studentsCount;
   //Store number of students who have voted till now
-  uint numberOfVotedStudents=0;
+  uint private numberOfVotedStudents=0;
   // Store admin credentials
-  address admin;
+  address private admin;
+
+  uint private totalQ1=0;
+  uint private totalQ2=0;
+  address usersAddresses[];
 
   modifier onlyAdmin() {
     require (msg.sender==admin);
@@ -19,7 +23,6 @@ contract CourseFeedback{
   //structure to store candidate's details
   struct Student{
     uint studentID;
-    string studentname;
     bool validStud;
     //feedback
   }
@@ -49,16 +52,32 @@ contract CourseFeedback{
   }
 
 
-  function setNumberOfStudents (uint numberOfStudents) onlyAdmin public{
+  function setNumberOfStudents (uint numberOfStudents) public{
+  	if(msg.sender!=admin)
+	{
+		revert("You are not an admin");
+		
+	}
     //sets the number of students allowed to give reviews
     studentsCount=numberOfStudents;
   }
 
+  function checkAdmin(address _addr) public view returns (bool){
+  	if(_addr==admin)
+  	{
+  		return true;
+  	}
+  	else
+  	{
+  		return false;
+  	}
+  }
+
 
   //add students
-  function addStudent (uint _studentid,string memory _studentname, address pk) onlyAdmin public {
+  function addStudent (uint _studentid, address pk) onlyAdmin private{
     //making a new student struct
-    studentsList[pk]=Student(_studentid,_studentname,true);
+    studentsList[pk]=Student(_studentid,true);
     //increase numberOfVotedStudents
     studentsCount++;
   }
@@ -75,19 +94,40 @@ contract CourseFeedback{
       feedbackRecord[msg.sender] = Feedback(a,b);
       // update voted
       voted[msg.sender]=true;
+      totalQ1+=a;
+      totalQ2+=b;
       return uint(keccak256(abi.encode(msg.sender)));
   }
 
 
   // check feedback
-  function checkFeedback() public view returns (uint, uint){
-      //chekc if the student voted
+  function checkFeedbackQ1() public view returns (uint){
+      //check if the student voted
       require(voted[msg.sender]== true);
       //check feedbackRecord
-      return (feedbackRecord[msg.sender].q1,feedbackRecord[msg.sender].q2);
+      return (feedbackRecord[msg.sender].q1);
 
   }
 
+  function checkFeedbackQ2() public view returns (uint){
+      //check if the student voted
+      require(voted[msg.sender]== true);
+      //check feedbackRecord
+      return (feedbackRecord[msg.sender].q2);
+
+  }
+  
+  function requestAddition() public{
+      usersAddresses.push(msg.sender);
+  }
+  
+    function addBulkStudents() onlyAdmin public{
+        for( uint i=ctr;i<usersAddresses.length; i++)
+        {
+            addStudent(ctr,usersAddresses[ctr]);
+            ctr++;
+        }
+    }
   function getNoOfStudVoted() public view returns (uint)
   {
     return numberOfVotedStudents;
@@ -97,6 +137,13 @@ contract CourseFeedback{
   {
     return studentsCount;
   }
+  
+  function returnTotalFeedbackQ1() public view returns(uint) {
+  	return totalQ1;
+  }
+
+  function returnTotalFeedbackQ2() public view returns (uint) {
+  	return totalQ2;
+  }
 
 }
-

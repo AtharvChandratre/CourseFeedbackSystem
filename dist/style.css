@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    outline: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial;
+    font-weight: normal;
+}
+
+h2,h3,h4,h5,h6 {
+    font-weight: normal;
+}
+
+.screen {
+    display: none;
+    height: 90vh;
+    background: #eee;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.screen.active {
+    display: flex;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: black;
+    color: white;
+    align-items: center;
+    padding: 0 30px;
+    height: 10vh;
+}
+
+#header h1 {
+    cursor: pointer;
+}
+
+button.btn {
+    padding: 10px 25px;
+    font-size: 25px;
+    border: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.question {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+}
+
+.question h2 {
+    margin-right: 30px;
+}
+
+#feedback-id {
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.row {
+    margin-top: 10px;
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row:nth-child(2n+1) {
+    border-bottom: 2px solid rgb(41, 41, 41);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.row.first {
+    border-bottom: 0;
+}
+
+input[type="number"] {
+    width: 30px;
+}
+
+.add-row .row {
+    width: 500px;
+}
